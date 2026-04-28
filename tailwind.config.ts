@@ -47,6 +47,26 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        pisa: {
+          navy: "hsl(var(--pisa-navy))",
+          "navy-deep": "hsl(var(--pisa-navy-deep))",
+          pink: "hsl(var(--pisa-pink))",
+          "pink-deep": "hsl(var(--pisa-pink-deep))",
+          yellow: "hsl(var(--pisa-yellow))",
+          "yellow-deep": "hsl(var(--pisa-yellow-deep))",
+          purple: "hsl(var(--pisa-purple))",
+          "purple-deep": "hsl(var(--pisa-purple-deep))",
+          mint: "hsl(var(--pisa-mint))",
+          "mint-deep": "hsl(var(--pisa-mint-deep))",
+          sky: "hsl(var(--pisa-sky))",
+        },
+        tint: {
+          navy: "hsl(var(--tint-navy))",
+          pink: "hsl(var(--tint-pink))",
+          yellow: "hsl(var(--tint-yellow))",
+          purple: "hsl(var(--tint-purple))",
+          mint: "hsl(var(--tint-mint))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -58,10 +78,15 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      fontFamily: {
+        display: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+        body: ['"Manrope"', "system-ui", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        pill: "999px",
       },
       keyframes: {
         "accordion-down": {
