@@ -98,7 +98,7 @@ const ClassesOverview = () => {
                       <td className="py-3 pr-3 text-muted-foreground">{ss.length}</td>
                       <td className="py-3 pr-3 text-muted-foreground">{sf.length}</td>
                       <td className="py-3 pr-3">
-                        {a ? <BandChip band={a.toFixed(1)} /> : <span className="text-muted-foreground">—</span>}
+                        {a ? <BandChip label="Avg" band={a.toFixed(1)} /> : <span className="text-muted-foreground">—</span>}
                       </td>
                       <td className="py-3 pr-0 text-right">
                         <Button asChild variant="primary" size="sm">
@@ -211,7 +211,7 @@ const ClassesOverview = () => {
                 <h3 className="mt-1 font-display text-lg text-pisa-navy">{c.class_name}</h3>
               </div>
               {c.avgBand ? (
-                <BandChip band={c.avgBand.toFixed(1)} />
+                <BandChip label="Avg" band={c.avgBand.toFixed(1)} />
               ) : (
                 <StatusBadge variant="yellow">No data</StatusBadge>
               )}
