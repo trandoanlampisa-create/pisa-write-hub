@@ -54,6 +54,10 @@ export interface TeacherFeedback {
   coherence_comment?: string;
   lexical_comment?: string;
   grammar_comment?: string;
+  task_response_detail?: string;
+  coherence_detail?: string;
+  lexical_detail?: string;
+  grammar_detail?: string;
   overall_band: number;
   overall_feedback: string;
   strengths: string;

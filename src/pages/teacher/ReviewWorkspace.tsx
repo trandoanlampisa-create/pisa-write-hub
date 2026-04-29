@@ -35,6 +35,10 @@ const ReviewWorkspace = () => {
   const [ccC, setCcC] = useState(existing?.coherence_comment ?? "");
   const [lrC, setLrC] = useState(existing?.lexical_comment ?? "");
   const [grC, setGrC] = useState(existing?.grammar_comment ?? "");
+  const [trD, setTrD] = useState(existing?.task_response_detail ?? "");
+  const [ccD, setCcD] = useState(existing?.coherence_detail ?? "");
+  const [lrD, setLrD] = useState(existing?.lexical_detail ?? "");
+  const [grD, setGrD] = useState(existing?.grammar_detail ?? "");
   const [overall, setOverall] = useState(existing?.overall_feedback ?? "");
   const [strengths, setStrengths] = useState(existing?.strengths ?? "");
   const [weaknesses, setWeaknesses] = useState(existing?.weaknesses ?? "");
