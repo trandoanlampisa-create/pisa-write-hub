@@ -23,7 +23,7 @@ export const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-40 px-4 pt-4">
-      <div className="mx-auto max-w-7xl">
+      <div className="w-full px-0 md:px-2">
         <nav className="flex items-center justify-between rounded-2xl bg-pisa-navy px-4 py-2.5 md:px-5 shadow-[0_4px_24px_-12px_hsl(var(--pisa-navy)/0.5)]">
           <Link to="/" className="flex items-center gap-2">
             <span className="grid h-7 w-7 place-items-center rounded-lg bg-pisa-yellow text-pisa-navy font-display font-extrabold text-sm">

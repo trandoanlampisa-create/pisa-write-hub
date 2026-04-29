@@ -79,5 +79,6 @@ export interface ClassRoom {
   id: string;
   class_name: string;
   teacher_id: string;
+  join_code: string;
   created_at: string;
 }

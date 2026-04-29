@@ -50,8 +50,8 @@ export const mockProfiles: Profile[] = [
 ];
 
 export const mockClasses: ClassRoom[] = [
-  { id: "c1", class_name: "IELTS 6.5 — Evening", teacher_id: "p-t1", created_at: "2025-01-10T09:00:00Z" },
-  { id: "c2", class_name: "IELTS 7.0 — Weekend", teacher_id: "p-t1", created_at: "2025-01-10T09:00:00Z" },
+  { id: "c1", class_name: "IELTS 6.5 — Evening", teacher_id: "p-t1", join_code: "PISA-65EV", created_at: "2025-01-10T09:00:00Z" },
+  { id: "c2", class_name: "IELTS 7.0 — Weekend", teacher_id: "p-t1", join_code: "PISA-70WK", created_at: "2025-01-10T09:00:00Z" },
 ];
 
 export const mockTasks: WritingTask[] = [
