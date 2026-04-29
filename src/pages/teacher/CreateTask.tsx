@@ -4,7 +4,7 @@ import { PageShell } from "@/components/pisa/PageShell";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { mockClasses, mockProfiles } from "@/data/mockData";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ImagePlus, X } from "lucide-react";
 import { toast } from "sonner";
 
 const CreateTask = () => {
@@ -17,13 +17,34 @@ const CreateTask = () => {
   const [target, setTarget] = useState(6.5);
   const [assignedClass, setAssignedClass] = useState(mockClasses[0]?.class_name ?? "");
   const [dueDate, setDueDate] = useState("");
+  const [images, setImages] = useState<string[]>([]);
 
   if (!profile) return <Navigate to="/login?role=teacher" replace />;
+
+  const onImageUpload = (files: FileList | null) => {
+    if (!files) return;
+    Array.from(files).forEach((file) => {
+      if (!file.type.startsWith("image/")) {
+        toast.error(`${file.name} is not an image.`);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const url = e.target?.result as string;
+        if (url) setImages((prev) => [...prev, url]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
 
   const onPublish = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !prompt) {
       toast.error("Please add a title and question prompt.");
+      return;
+    }
+    if (taskType === "task1" && images.length === 0) {
+      toast.error("Task 1 requires at least one chart or diagram image.");
       return;
     }
     toast.success("Writing task published!", {
@@ -103,6 +124,48 @@ const CreateTask = () => {
               className="mt-1 w-full min-h-[140px] rounded-xl border border-border bg-secondary p-3 text-sm leading-relaxed focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
             />
           </div>
+
+          {taskType === "task1" && (
+            <div>
+              <label className="text-[12px] font-medium text-muted-foreground">
+                Chart / diagram images <span className="text-pisa-pink-deep">*</span>
+              </label>
+              <p className="text-[11px] text-muted-foreground mt-0.5">
+                Upload the visual(s) students need to describe (e.g. pie chart, bar graph, map).
+              </p>
+              <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {images.map((src, i) => (
+                  <div key={i} className="relative group rounded-xl overflow-hidden border border-border bg-white aspect-video">
+                    <img src={src} alt={`Task 1 visual ${i + 1}`} className="w-full h-full object-contain" />
+                    <button
+                      type="button"
+                      onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
+                      className="absolute top-1.5 right-1.5 grid place-items-center h-6 w-6 rounded-full bg-pisa-navy text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-label="Remove image"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ))}
+                <label className="cursor-pointer rounded-xl border-2 border-dashed border-border bg-secondary/50 hover:bg-secondary hover:border-pisa-navy/40 transition-colors aspect-video grid place-items-center text-center p-3">
+                  <div className="flex flex-col items-center gap-1.5 text-pisa-navy/70">
+                    <ImagePlus className="h-5 w-5" />
+                    <span className="text-[12px] font-medium">Add image</span>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      onImageUpload(e.target.files);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="text-[12px] font-medium text-muted-foreground">Instructions for students (optional)</label>

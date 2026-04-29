@@ -19,6 +19,7 @@ export interface WritingTask {
   task_type: TaskType;
   question_prompt: string;
   instructions?: string;
+  image_urls?: string[];
   target_band?: number;
   assigned_class?: string;
   assigned_students?: string[];
