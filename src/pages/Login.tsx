@@ -4,6 +4,7 @@ import { Navbar } from "@/components/pisa/Navbar";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import type { Role } from "@/types";
+import { mockClasses } from "@/data/mockData";
 import { GraduationCap, UserRound } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,6 +14,9 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
   const [role, setRole] = useState<Role>(initialRole);
   const [email, setEmail] = useState(initialRole === "teacher" ? "linh@pisa.edu.vn" : "minh@student.pisa.edu.vn");
   const [password, setPassword] = useState("demo1234");
+  const [fullName, setFullName] = useState("");
+  const [selectedClass, setSelectedClass] = useState(mockClasses[0]?.class_name ?? "");
+  const [targetBand, setTargetBand] = useState(7);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -26,8 +30,24 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
       toast.error("Please enter your email and password.");
       return;
     }
+    if (mode === "signup" && !fullName) {
+      toast.error("Please enter your full name.");
+      return;
+    }
+    if (mode === "signup" && role === "student" && !selectedClass) {
+      toast.error("Please select your class.");
+      return;
+    }
     const profile = login(role);
-    toast.success(`Welcome back, ${profile.full_name.split(" ")[0]}!`);
+    if (mode === "signup") {
+      toast.success(
+        role === "student"
+          ? `Welcome to PISA, ${fullName.split(" ")[0]}! You've joined ${selectedClass}.`
+          : `Welcome to PISA, ${fullName.split(" ")[0]}!`,
+      );
+    } else {
+      toast.success(`Welcome back, ${profile.full_name.split(" ")[0]}!`);
+    }
     navigate(role === "teacher" ? "/teacher" : "/student");
   };
 
@@ -75,7 +95,12 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
             {mode === "signup" && (
               <div>
                 <label className="text-[12px] font-medium text-muted-foreground">Full name</label>
-                <input className="mt-1 input-base" placeholder="Your full name" />
+                <input
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="mt-1 input-base"
+                  placeholder="Your full name"
+                />
               </div>
             )}
             <div>
@@ -98,6 +123,38 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
                 placeholder="••••••••"
               />
             </div>
+
+            {mode === "signup" && role === "student" && (
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[12px] font-medium text-muted-foreground">Your class</label>
+                  <select
+                    value={selectedClass}
+                    onChange={(e) => setSelectedClass(e.target.value)}
+                    className="mt-1 input-base"
+                  >
+                    {mockClasses.map((c) => (
+                      <option key={c.id} value={c.class_name}>{c.class_name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[12px] font-medium text-muted-foreground">Target band</label>
+                  <select
+                    value={targetBand}
+                    onChange={(e) => setTargetBand(parseFloat(e.target.value))}
+                    className="mt-1 input-base"
+                  >
+                    {[5.5, 6, 6.5, 7, 7.5, 8, 8.5].map((b) => (
+                      <option key={b} value={b}>Band {b.toFixed(1)}</option>
+                    ))}
+                  </select>
+                </div>
+                <p className="col-span-2 text-[11px] text-muted-foreground">
+                  Don't see your class? Ask your teacher for the join code.
+                </p>
+              </div>
+            )}
 
             <Button type="submit" variant="accent" className="w-full">
               {mode === "signup" ? "Create account" : "Log in"}

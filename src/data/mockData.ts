@@ -139,11 +139,15 @@ export const mockFeedback: TeacherFeedback[] = [
     id: "fb-1",
     submission_id: "sub-1",
     teacher_id: "p-t1",
-    task_response_score: 6.0,
-    coherence_score: 6.5,
-    lexical_score: 5.5,
-    grammar_score: 5.5,
-    overall_band: 6.0,
+    task_response_score: 6,
+    coherence_score: 7,
+    lexical_score: 6,
+    grammar_score: 5,
+    task_response_comment: "Clear position; both views are addressed.",
+    coherence_comment: "Logical paragraphs; linkers used naturally.",
+    lexical_comment: "Some repetition of \"working from home\".",
+    grammar_comment: "Subject-verb agreement errors hold the band back.",
+    overall_band: 6,
     overall_feedback:
       "Strong structure and clear opinion. Your ideas are well-organised, but grammar accuracy is holding you back from band 6.5. Focus this week on subject-verb agreement and articles.",
     strengths:
@@ -203,3 +207,35 @@ export const getProgressNotesByStudent = (studentId: string) =>
   mockProgressNotes
     .filter((p) => p.student_id === studentId)
     .sort((a, b) => a.created_at.localeCompare(b.created_at));
+
+export const getStudentsByClass = (className: string) =>
+  mockProfiles.filter((p) => p.role === "student" && p.class_name === className);
+
+export const getClassByName = (name: string) =>
+  mockClasses.find((c) => c.class_name === name);
+
+export type FeedbackInput = Omit<TeacherFeedback, "id" | "created_at" | "updated_at">;
+
+export const upsertFeedback = (input: FeedbackInput): TeacherFeedback => {
+  const now = new Date().toISOString();
+  const idx = mockFeedback.findIndex((f) => f.submission_id === input.submission_id);
+  if (idx >= 0) {
+    mockFeedback[idx] = { ...mockFeedback[idx], ...input, updated_at: now };
+  } else {
+    mockFeedback.push({
+      ...input,
+      id: `fb-${Date.now()}`,
+      created_at: now,
+      updated_at: now,
+    });
+  }
+  // Mark the submission as reviewed when sent
+  if (input.is_sent_to_student) {
+    const sub = mockSubmissions.find((s) => s.id === input.submission_id);
+    if (sub) {
+      sub.status = "reviewed";
+      sub.updated_at = now;
+    }
+  }
+  return mockFeedback[idx >= 0 ? idx : mockFeedback.length - 1];
+};

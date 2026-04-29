@@ -15,6 +15,7 @@ export const Navbar = () => {
   ];
   const teacherLinks = [
     { to: "/teacher", label: "Dashboard" },
+    { to: "/teacher/classes", label: "Classes" },
     { to: "/teacher/tasks/new", label: "Create task" },
     { to: "/settings", label: "Settings" },
   ];

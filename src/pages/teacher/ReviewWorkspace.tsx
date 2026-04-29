@@ -12,11 +12,12 @@ import {
   getTask,
   getProfile,
   getFeedbackBySubmission,
+  upsertFeedback,
 } from "@/data/mockData";
 import { ArrowLeft, Save, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
-const roundHalf = (n: number) => Math.round(n * 2) / 2;
+const roundInt = (n: number) => Math.round(n);
 
 const ReviewWorkspace = () => {
   const { profile } = useAuth();
@@ -26,10 +27,14 @@ const ReviewWorkspace = () => {
   const student = submission ? getProfile(submission.student_id) : undefined;
   const existing = submission ? getFeedbackBySubmission(submission.id) : undefined;
 
-  const [tr, setTr] = useState(existing?.task_response_score ?? 6);
-  const [cc, setCc] = useState(existing?.coherence_score ?? 6);
-  const [lr, setLr] = useState(existing?.lexical_score ?? 6);
-  const [gr, setGr] = useState(existing?.grammar_score ?? 6);
+  const [tr, setTr] = useState(Math.round(existing?.task_response_score ?? 6));
+  const [cc, setCc] = useState(Math.round(existing?.coherence_score ?? 6));
+  const [lr, setLr] = useState(Math.round(existing?.lexical_score ?? 6));
+  const [gr, setGr] = useState(Math.round(existing?.grammar_score ?? 6));
+  const [trC, setTrC] = useState(existing?.task_response_comment ?? "");
+  const [ccC, setCcC] = useState(existing?.coherence_comment ?? "");
+  const [lrC, setLrC] = useState(existing?.lexical_comment ?? "");
+  const [grC, setGrC] = useState(existing?.grammar_comment ?? "");
   const [overall, setOverall] = useState(existing?.overall_feedback ?? "");
   const [strengths, setStrengths] = useState(existing?.strengths ?? "");
   const [weaknesses, setWeaknesses] = useState(existing?.weaknesses ?? "");
@@ -38,7 +43,7 @@ const ReviewWorkspace = () => {
   const [sample, setSample] = useState(existing?.sample_essay ?? "");
   const [aiOpen, setAiOpen] = useState(false);
 
-  const overallBand = useMemo(() => roundHalf((tr + cc + lr + gr) / 4), [tr, cc, lr, gr]);
+  const overallBand = useMemo(() => roundInt((tr + cc + lr + gr) / 4), [tr, cc, lr, gr]);
 
   useEffect(() => {
     document.title = student
@@ -127,13 +132,41 @@ const ReviewWorkspace = () => {
                 <p className="pisa-tag text-pisa-pink-deep">Scoring</p>
                 <h2 className="font-display text-lg text-pisa-navy mt-1">IELTS criteria</h2>
               </div>
-              <BandChip label="Overall" band={overallBand.toFixed(1)} />
+              <BandChip label="Overall" band={String(overallBand)} />
             </div>
             <div className="mt-4 space-y-4">
-              <ScoreInput label="Task response / achievement" value={tr} onChange={setTr} />
-              <ScoreInput label="Coherence & cohesion" value={cc} onChange={setCc} />
-              <ScoreInput label="Lexical resource" value={lr} onChange={setLr} />
-              <ScoreInput label="Grammatical range & accuracy" value={gr} onChange={setGr} />
+              <ScoreInput
+                label="Task response / achievement"
+                value={tr}
+                onChange={setTr}
+                comment={trC}
+                onCommentChange={setTrC}
+                commentPlaceholder="e.g. Position is clear; ideas need more development."
+              />
+              <ScoreInput
+                label="Coherence & cohesion"
+                value={cc}
+                onChange={setCc}
+                comment={ccC}
+                onCommentChange={setCcC}
+                commentPlaceholder="e.g. Good linkers; paragraphing inconsistent."
+              />
+              <ScoreInput
+                label="Lexical resource"
+                value={lr}
+                onChange={setLr}
+                comment={lrC}
+                onCommentChange={setLrC}
+                commentPlaceholder="e.g. Limited range; repeats key words."
+              />
+              <ScoreInput
+                label="Grammatical range & accuracy"
+                value={gr}
+                onChange={setGr}
+                comment={grC}
+                onCommentChange={setGrC}
+                commentPlaceholder="e.g. Subject-verb agreement errors throughout."
+              />
             </div>
           </div>
 
@@ -210,17 +243,59 @@ const ReviewWorkspace = () => {
           <div className="flex flex-wrap items-center justify-end gap-2 sticky bottom-3">
             <Button
               variant="ghost"
-              onClick={() => toast.success("Draft feedback saved.")}
+              onClick={() => {
+                upsertFeedback({
+                  submission_id: submission.id,
+                  teacher_id: profile.id,
+                  task_response_score: tr,
+                  coherence_score: cc,
+                  lexical_score: lr,
+                  grammar_score: gr,
+                  task_response_comment: trC,
+                  coherence_comment: ccC,
+                  lexical_comment: lrC,
+                  grammar_comment: grC,
+                  overall_band: overallBand,
+                  overall_feedback: overall,
+                  strengths,
+                  weaknesses,
+                  next_action: next,
+                  progress_note: progress,
+                  sample_essay: sample,
+                  is_sent_to_student: false,
+                });
+                toast.success("Draft feedback saved.");
+              }}
             >
               <Save className="h-4 w-4" /> Save draft
             </Button>
             <Button
               variant="accent"
-              onClick={() =>
+              onClick={() => {
+                upsertFeedback({
+                  submission_id: submission.id,
+                  teacher_id: profile.id,
+                  task_response_score: tr,
+                  coherence_score: cc,
+                  lexical_score: lr,
+                  grammar_score: gr,
+                  task_response_comment: trC,
+                  coherence_comment: ccC,
+                  lexical_comment: lrC,
+                  grammar_comment: grC,
+                  overall_band: overallBand,
+                  overall_feedback: overall,
+                  strengths,
+                  weaknesses,
+                  next_action: next,
+                  progress_note: progress,
+                  sample_essay: sample,
+                  is_sent_to_student: true,
+                });
                 toast.success("Feedback sent to student.", {
                   description: "Saved to progress history.",
-                })
-              }
+                });
+              }}
             >
               <Send className="h-4 w-4" /> Send to student
             </Button>

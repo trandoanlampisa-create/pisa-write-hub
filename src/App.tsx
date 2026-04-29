@@ -15,6 +15,7 @@ import TeacherDashboard from "./pages/teacher/TeacherDashboard.tsx";
 import CreateTask from "./pages/teacher/CreateTask.tsx";
 import ReviewWorkspace from "./pages/teacher/ReviewWorkspace.tsx";
 import StudentProgress from "./pages/teacher/StudentProgress.tsx";
+import ClassesOverview from "./pages/teacher/ClassesOverview.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,8 @@ const App = () => (
             <Route path="/teacher/tasks/new" element={<CreateTask />} />
             <Route path="/teacher/review/:submissionId" element={<ReviewWorkspace />} />
             <Route path="/teacher/student/:studentId" element={<StudentProgress />} />
+            <Route path="/teacher/classes" element={<ClassesOverview />} />
+            <Route path="/teacher/classes/:className" element={<ClassesOverview />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
