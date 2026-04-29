@@ -209,6 +209,10 @@ const ClassesOverview = () => {
               <div>
                 <p className="pisa-tag text-pisa-pink-deep">Class</p>
                 <h3 className="mt-1 font-display text-lg text-pisa-navy">{c.class_name}</h3>
+                <div className="mt-2 inline-flex items-center gap-1.5 rounded-pill bg-tint-yellow px-2.5 py-1">
+                  <span className="text-[10px] uppercase tracking-wider text-pisa-yellow-deep font-medium">Join code</span>
+                  <span className="font-mono text-[12px] font-bold text-pisa-yellow-deep tracking-wider">{c.join_code}</span>
+                </div>
               </div>
               {c.avgBand ? (
                 <BandChip label="Avg" band={c.avgBand.toFixed(1)} />
