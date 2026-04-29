@@ -17,6 +17,7 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
   const [fullName, setFullName] = useState("");
   const [selectedClass, setSelectedClass] = useState(mockClasses[0]?.class_name ?? "");
   const [targetBand, setTargetBand] = useState(7);
+  const [joinCode, setJoinCode] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -37,6 +38,15 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
     if (mode === "signup" && role === "student" && !selectedClass) {
       toast.error("Please select your class.");
       return;
+    }
+    if (mode === "signup" && role === "student") {
+      const cls = mockClasses.find((c) => c.class_name === selectedClass);
+      if (!cls || joinCode.trim().toUpperCase() !== cls.join_code.toUpperCase()) {
+        toast.error("Invalid join code for this class.", {
+          description: "Ask your teacher for the correct code.",
+        });
+        return;
+      }
     }
     const profile = login(role);
     if (mode === "signup") {
@@ -150,8 +160,17 @@ const Login = ({ mode = "login" as "login" | "signup" }) => {
                     ))}
                   </select>
                 </div>
+                <div className="col-span-2">
+                  <label className="text-[12px] font-medium text-muted-foreground">Class join code</label>
+                  <input
+                    value={joinCode}
+                    onChange={(e) => setJoinCode(e.target.value)}
+                    className="mt-1 input-base font-mono tracking-wider uppercase"
+                    placeholder="e.g. PISA-65EV"
+                  />
+                </div>
                 <p className="col-span-2 text-[11px] text-muted-foreground">
-                  Don't see your class? Ask your teacher for the join code.
+                  The join code is provided by your teacher to confirm your enrolment.
                 </p>
               </div>
             )}

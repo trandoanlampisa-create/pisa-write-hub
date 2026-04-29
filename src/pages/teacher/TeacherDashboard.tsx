@@ -12,7 +12,7 @@ import {
   mockClasses,
   mockFeedback,
 } from "@/data/mockData";
-import { Filter, Plus, Users, ArrowRight, LayoutGrid } from "lucide-react";
+import { Filter, Plus, ArrowRight, LayoutGrid } from "lucide-react";
 import { useMemo, useState } from "react";
 
 const TeacherDashboard = () => {
@@ -60,13 +60,8 @@ const TeacherDashboard = () => {
           <Button asChild variant="yellow">
             <Link to="/teacher/tasks/new"><Plus className="h-4 w-4" /> Create writing task</Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link to="/teacher/classes"><LayoutGrid className="h-4 w-4" /> Classes</Link>
-          </Button>
           <Button asChild variant="accent">
-            <Link to={`/teacher/student/${mockProfiles.find((p) => p.role === "student")!.id}`}>
-              <Users className="h-4 w-4" /> View progress
-            </Link>
+            <Link to="/teacher/classes"><LayoutGrid className="h-4 w-4" /> Classes overview</Link>
           </Button>
         </div>
       </HeroBanner>

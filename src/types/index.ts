@@ -19,6 +19,7 @@ export interface WritingTask {
   task_type: TaskType;
   question_prompt: string;
   instructions?: string;
+  image_urls?: string[];
   target_band?: number;
   assigned_class?: string;
   assigned_students?: string[];
@@ -53,6 +54,10 @@ export interface TeacherFeedback {
   coherence_comment?: string;
   lexical_comment?: string;
   grammar_comment?: string;
+  task_response_detail?: string;
+  coherence_detail?: string;
+  lexical_detail?: string;
+  grammar_detail?: string;
   overall_band: number;
   overall_feedback: string;
   strengths: string;
@@ -79,5 +84,6 @@ export interface ClassRoom {
   id: string;
   class_name: string;
   teacher_id: string;
+  join_code: string;
   created_at: string;
 }

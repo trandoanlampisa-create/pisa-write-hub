@@ -35,6 +35,10 @@ const ReviewWorkspace = () => {
   const [ccC, setCcC] = useState(existing?.coherence_comment ?? "");
   const [lrC, setLrC] = useState(existing?.lexical_comment ?? "");
   const [grC, setGrC] = useState(existing?.grammar_comment ?? "");
+  const [trD, setTrD] = useState(existing?.task_response_detail ?? "");
+  const [ccD, setCcD] = useState(existing?.coherence_detail ?? "");
+  const [lrD, setLrD] = useState(existing?.lexical_detail ?? "");
+  const [grD, setGrD] = useState(existing?.grammar_detail ?? "");
   const [overall, setOverall] = useState(existing?.overall_feedback ?? "");
   const [strengths, setStrengths] = useState(existing?.strengths ?? "");
   const [weaknesses, setWeaknesses] = useState(existing?.weaknesses ?? "");
@@ -93,9 +97,6 @@ const ReviewWorkspace = () => {
                     })}
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm">
-                <Link to={`/teacher/student/${student.id}`}>View progress</Link>
-              </Button>
             </div>
 
             <div className="mt-4 rounded-xl bg-secondary p-4">
@@ -171,6 +172,50 @@ const ReviewWorkspace = () => {
           </div>
 
           <div className="pisa-card space-y-3">
+            <div>
+              <p className="pisa-tag text-pisa-pink-deep">Detailed feedback</p>
+              <h2 className="font-display text-lg text-pisa-navy mt-1">Per criterion</h2>
+              <p className="text-[12px] text-muted-foreground mt-1">
+                Expand on each IELTS criterion. Students see this in their feedback view.
+              </p>
+            </div>
+            <div>
+              <label className="text-[12px] font-medium text-pisa-navy">Task response / achievement — detail</label>
+              <textarea
+                value={trD}
+                onChange={(e) => setTrD(e.target.value)}
+                className="mt-1 w-full min-h-[70px] rounded-xl border border-border bg-white p-3 text-sm focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
+                placeholder="What did the student do well / poorly on task response? Be specific."
+              />
+            </div>
+            <div>
+              <label className="text-[12px] font-medium text-pisa-navy">Coherence & cohesion — detail</label>
+              <textarea
+                value={ccD}
+                onChange={(e) => setCcD(e.target.value)}
+                className="mt-1 w-full min-h-[70px] rounded-xl border border-border bg-white p-3 text-sm focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
+                placeholder="Comment on paragraphing, linkers, referencing and overall flow."
+              />
+            </div>
+            <div>
+              <label className="text-[12px] font-medium text-pisa-navy">Lexical resource — detail</label>
+              <textarea
+                value={lrD}
+                onChange={(e) => setLrD(e.target.value)}
+                className="mt-1 w-full min-h-[70px] rounded-xl border border-border bg-white p-3 text-sm focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
+                placeholder="Range, accuracy, collocations, register — give examples from the essay."
+              />
+            </div>
+            <div>
+              <label className="text-[12px] font-medium text-pisa-navy">Grammatical range & accuracy — detail</label>
+              <textarea
+                value={grD}
+                onChange={(e) => setGrD(e.target.value)}
+                className="mt-1 w-full min-h-[70px] rounded-xl border border-border bg-white p-3 text-sm focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
+                placeholder="Sentence variety, tense control, punctuation — quote a few errors."
+              />
+            </div>
+
             <div>
               <label className="text-[12px] font-medium text-muted-foreground">Overall feedback</label>
               <textarea
@@ -255,6 +300,10 @@ const ReviewWorkspace = () => {
                   coherence_comment: ccC,
                   lexical_comment: lrC,
                   grammar_comment: grC,
+              task_response_detail: trD,
+              coherence_detail: ccD,
+              lexical_detail: lrD,
+              grammar_detail: grD,
                   overall_band: overallBand,
                   overall_feedback: overall,
                   strengths,
@@ -283,6 +332,10 @@ const ReviewWorkspace = () => {
                   coherence_comment: ccC,
                   lexical_comment: lrC,
                   grammar_comment: grC,
+                  task_response_detail: trD,
+                  coherence_detail: ccD,
+                  lexical_detail: lrD,
+                  grammar_detail: grD,
                   overall_band: overallBand,
                   overall_feedback: overall,
                   strengths,

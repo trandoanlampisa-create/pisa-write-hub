@@ -11,6 +11,6 @@ export const PageShell = ({
 }) => (
   <div className="min-h-screen bg-background">
     <Navbar />
-    <main className={cn("mx-auto max-w-7xl px-4 py-6 md:py-8", className)}>{children}</main>
+    <main className={cn("w-full px-4 md:px-6 lg:px-8 py-6 md:py-8", className)}>{children}</main>
   </div>
 );
