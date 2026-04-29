@@ -13,13 +13,31 @@ import {
 } from "@/data/mockData";
 import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 
-const Criterion = ({ label, score }: { label: string; score: number }) => (
+const Criterion = ({
+  label,
+  score,
+  comment,
+  detail,
+}: {
+  label: string;
+  score: number;
+  comment?: string;
+  detail?: string;
+}) => (
   <div className="rounded-xl bg-secondary p-3">
     <div className="flex items-baseline justify-between">
       <p className="text-[12px] text-muted-foreground">{label}</p>
       <p className="font-display text-xl font-bold text-pisa-navy">{score.toFixed(1)}</p>
     </div>
     <ProgressBar value={(score / 9) * 100} color="yellow" className="mt-2" />
+    {comment && (
+      <p className="mt-2 text-[12.5px] font-medium text-pisa-navy">{comment}</p>
+    )}
+    {detail && (
+      <p className="mt-1 text-[12.5px] leading-relaxed text-foreground/80 whitespace-pre-wrap">
+        {detail}
+      </p>
+    )}
   </div>
 );
 
@@ -79,11 +97,31 @@ const StudentFeedback = () => {
 
       {feedback ? (
         <>
-          <section className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-            <Criterion label="Task response" score={feedback.task_response_score} />
-            <Criterion label="Coherence & cohesion" score={feedback.coherence_score} />
-            <Criterion label="Lexical resource" score={feedback.lexical_score} />
-            <Criterion label="Grammar" score={feedback.grammar_score} />
+          <section className="grid gap-3 md:grid-cols-2">
+            <Criterion
+              label="Task response"
+              score={feedback.task_response_score}
+              comment={feedback.task_response_comment}
+              detail={feedback.task_response_detail}
+            />
+            <Criterion
+              label="Coherence & cohesion"
+              score={feedback.coherence_score}
+              comment={feedback.coherence_comment}
+              detail={feedback.coherence_detail}
+            />
+            <Criterion
+              label="Lexical resource"
+              score={feedback.lexical_score}
+              comment={feedback.lexical_comment}
+              detail={feedback.lexical_detail}
+            />
+            <Criterion
+              label="Grammar"
+              score={feedback.grammar_score}
+              comment={feedback.grammar_comment}
+              detail={feedback.grammar_detail}
+            />
           </section>
 
           <section className="grid gap-4 lg:grid-cols-3">
