@@ -93,9 +93,6 @@ const ReviewWorkspace = () => {
                     })}
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm">
-                <Link to={`/teacher/student/${student.id}`}>View progress</Link>
-              </Button>
             </div>
 
             <div className="mt-4 rounded-xl bg-secondary p-4">
