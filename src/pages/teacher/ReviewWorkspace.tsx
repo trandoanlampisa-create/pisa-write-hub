@@ -12,6 +12,7 @@ import {
   getTask,
   getProfile,
   getFeedbackBySubmission,
+  upsertFeedback,
 } from "@/data/mockData";
 import { ArrowLeft, Save, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -242,17 +243,59 @@ const ReviewWorkspace = () => {
           <div className="flex flex-wrap items-center justify-end gap-2 sticky bottom-3">
             <Button
               variant="ghost"
-              onClick={() => toast.success("Draft feedback saved.")}
+              onClick={() => {
+                upsertFeedback({
+                  submission_id: submission.id,
+                  teacher_id: profile.id,
+                  task_response_score: tr,
+                  coherence_score: cc,
+                  lexical_score: lr,
+                  grammar_score: gr,
+                  task_response_comment: trC,
+                  coherence_comment: ccC,
+                  lexical_comment: lrC,
+                  grammar_comment: grC,
+                  overall_band: overallBand,
+                  overall_feedback: overall,
+                  strengths,
+                  weaknesses,
+                  next_action: next,
+                  progress_note: progress,
+                  sample_essay: sample,
+                  is_sent_to_student: false,
+                });
+                toast.success("Draft feedback saved.");
+              }}
             >
               <Save className="h-4 w-4" /> Save draft
             </Button>
             <Button
               variant="accent"
-              onClick={() =>
+              onClick={() => {
+                upsertFeedback({
+                  submission_id: submission.id,
+                  teacher_id: profile.id,
+                  task_response_score: tr,
+                  coherence_score: cc,
+                  lexical_score: lr,
+                  grammar_score: gr,
+                  task_response_comment: trC,
+                  coherence_comment: ccC,
+                  lexical_comment: lrC,
+                  grammar_comment: grC,
+                  overall_band: overallBand,
+                  overall_feedback: overall,
+                  strengths,
+                  weaknesses,
+                  next_action: next,
+                  progress_note: progress,
+                  sample_essay: sample,
+                  is_sent_to_student: true,
+                });
                 toast.success("Feedback sent to student.", {
                   description: "Saved to progress history.",
-                })
-              }
+                });
+              }}
             >
               <Send className="h-4 w-4" /> Send to student
             </Button>
