@@ -11,7 +11,7 @@ import {
   getTask,
   getFeedbackBySubmission,
 } from "@/data/mockData";
-import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 
 const Criterion = ({
   label,
@@ -56,11 +56,6 @@ const StudentFeedback = () => {
       </PageShell>
     );
   }
-
-  const improvements = feedback?.next_action
-    ?.split(/\.|\n/)
-    .map((s) => s.trim())
-    .filter(Boolean) ?? [];
 
   return (
     <PageShell className="space-y-5">
@@ -124,43 +119,11 @@ const StudentFeedback = () => {
             />
           </section>
 
-          <section className="grid gap-4 lg:grid-cols-3">
-            <div className="pisa-card lg:col-span-2">
-              <h3 className="font-display text-base text-pisa-navy">Overall feedback</h3>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/85">
-                {feedback.overall_feedback}
-              </p>
-              <div className="mt-4 grid sm:grid-cols-2 gap-3">
-                <div className="rounded-xl bg-tint-mint p-3">
-                  <p className="text-[11px] font-medium uppercase tracking-wider text-pisa-mint-deep">Strengths</p>
-                  <p className="mt-1 text-[13.5px] text-pisa-mint-deep/90">{feedback.strengths}</p>
-                </div>
-                <div className="rounded-xl bg-tint-pink p-3">
-                  <p className="text-[11px] font-medium uppercase tracking-wider text-pisa-pink-deep">To improve</p>
-                  <p className="mt-1 text-[13.5px] text-pisa-pink-deep/90">{feedback.weaknesses}</p>
-                </div>
-              </div>
-            </div>
-            <div className="pisa-card">
-              <h3 className="font-display text-base text-pisa-navy">What to improve next</h3>
-              <ul className="mt-3 space-y-2">
-                {improvements.length === 0 && (
-                  <li className="text-sm text-muted-foreground">No action items yet.</li>
-                )}
-                {improvements.map((step, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[13.5px]">
-                    <CheckCircle2 className="h-4 w-4 text-pisa-mint-deep mt-0.5 shrink-0" />
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-              {feedback.progress_note && (
-                <div className="mt-4 rounded-xl bg-tint-yellow p-3">
-                  <p className="text-[11px] font-medium uppercase tracking-wider text-pisa-yellow-deep">Teacher's note</p>
-                  <p className="mt-1 text-[13px] text-pisa-yellow-deep/90">{feedback.progress_note}</p>
-                </div>
-              )}
-            </div>
+          <section className="pisa-card">
+            <h3 className="font-display text-base text-pisa-navy">Overall feedback</h3>
+            <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/85 whitespace-pre-wrap">
+              {feedback.overall_feedback}
+            </p>
           </section>
 
           {feedback.sample_essay && (
