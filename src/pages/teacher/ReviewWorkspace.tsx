@@ -40,10 +40,6 @@ const ReviewWorkspace = () => {
   const [lrD, setLrD] = useState(existing?.lexical_detail ?? "");
   const [grD, setGrD] = useState(existing?.grammar_detail ?? "");
   const [overall, setOverall] = useState(existing?.overall_feedback ?? "");
-  const [strengths, setStrengths] = useState(existing?.strengths ?? "");
-  const [weaknesses, setWeaknesses] = useState(existing?.weaknesses ?? "");
-  const [next, setNext] = useState(existing?.next_action ?? "");
-  const [progress, setProgress] = useState(existing?.progress_note ?? "");
   const [sample, setSample] = useState(existing?.sample_essay ?? "");
   const [aiOpen, setAiOpen] = useState(false);
 
@@ -225,42 +221,6 @@ const ReviewWorkspace = () => {
                 placeholder="Summarise the student's performance on this essay."
               />
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              <div>
-                <label className="text-[12px] font-medium text-pisa-mint-deep">Strengths</label>
-                <textarea
-                  value={strengths}
-                  onChange={(e) => setStrengths(e.target.value)}
-                  className="mt-1 w-full min-h-[80px] rounded-xl border border-border bg-tint-mint/40 p-3 text-sm focus:outline-none focus:border-pisa-mint-deep focus:ring-[3px] focus:ring-pisa-mint-deep/15 resize-y"
-                />
-              </div>
-              <div>
-                <label className="text-[12px] font-medium text-pisa-pink-deep">Weaknesses</label>
-                <textarea
-                  value={weaknesses}
-                  onChange={(e) => setWeaknesses(e.target.value)}
-                  className="mt-1 w-full min-h-[80px] rounded-xl border border-border bg-tint-pink/50 p-3 text-sm focus:outline-none focus:border-pisa-pink-deep focus:ring-[3px] focus:ring-pisa-pink-deep/15 resize-y"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-[12px] font-medium text-muted-foreground">Next action</label>
-              <textarea
-                value={next}
-                onChange={(e) => setNext(e.target.value)}
-                className="mt-1 w-full min-h-[60px] rounded-xl border border-border bg-white p-3 text-sm focus:outline-none focus:border-pisa-navy focus:ring-[3px] focus:ring-pisa-navy/15 resize-y"
-                placeholder="e.g. Rewrite paragraph 2; learn 5 collocations."
-              />
-            </div>
-            <div>
-              <label className="text-[12px] font-medium text-muted-foreground">Progress note (long-term, internal)</label>
-              <textarea
-                value={progress}
-                onChange={(e) => setProgress(e.target.value)}
-                className="mt-1 w-full min-h-[60px] rounded-xl border border-border bg-tint-yellow/60 p-3 text-sm focus:outline-none focus:border-pisa-yellow-deep focus:ring-[3px] focus:ring-pisa-yellow-deep/15 resize-y"
-                placeholder="What pattern is this student showing over time?"
-              />
-            </div>
           </div>
 
           <div className="pisa-card">
@@ -306,10 +266,10 @@ const ReviewWorkspace = () => {
               grammar_detail: grD,
                   overall_band: overallBand,
                   overall_feedback: overall,
-                  strengths,
-                  weaknesses,
-                  next_action: next,
-                  progress_note: progress,
+                  strengths: "",
+                  weaknesses: "",
+                  next_action: "",
+                  progress_note: "",
                   sample_essay: sample,
                   is_sent_to_student: false,
                 });
@@ -338,10 +298,10 @@ const ReviewWorkspace = () => {
                   grammar_detail: grD,
                   overall_band: overallBand,
                   overall_feedback: overall,
-                  strengths,
-                  weaknesses,
-                  next_action: next,
-                  progress_note: progress,
+                  strengths: "",
+                  weaknesses: "",
+                  next_action: "",
+                  progress_note: "",
                   sample_essay: sample,
                   is_sent_to_student: true,
                 });
