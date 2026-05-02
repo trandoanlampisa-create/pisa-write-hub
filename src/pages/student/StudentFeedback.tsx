@@ -126,6 +126,28 @@ const StudentFeedback = () => {
             </p>
           </section>
 
+          <section className="grid gap-4 md:grid-cols-2">
+            {[
+              { label: "Task response / achievement — detail", text: feedback.task_response_detail },
+              { label: "Coherence & cohesion — detail", text: feedback.coherence_detail },
+              { label: "Lexical resource — detail", text: feedback.lexical_detail },
+              { label: "Grammatical range & accuracy — detail", text: feedback.grammar_detail },
+            ].map((c) => (
+              <div key={c.label} className="pisa-card">
+                <h3 className="font-display text-base text-pisa-navy">{c.label}</h3>
+                {c.text ? (
+                  <p className="mt-2 text-[14px] leading-relaxed text-foreground/85 whitespace-pre-wrap">
+                    {c.text}
+                  </p>
+                ) : (
+                  <p className="mt-2 text-[13px] text-muted-foreground italic">
+                    No detailed feedback provided for this criterion.
+                  </p>
+                )}
+              </div>
+            ))}
+          </section>
+
           {feedback.sample_essay && (
             <section className="pisa-card">
               <div className="flex items-center justify-between">
