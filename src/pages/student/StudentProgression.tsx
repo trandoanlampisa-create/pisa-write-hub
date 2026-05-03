@@ -118,12 +118,12 @@ const StudentProgression = () => {
               }).length} submissions
             </span>
           </div>
-          <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-1 text-[10px] text-muted-foreground mb-1 max-w-[60%]">
+          <div className="grid grid-cols-7 gap-1 text-[10px] text-muted-foreground mb-1 max-w-md">
             {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
               <div key={i} className="text-center">{d}</div>
             ))}
           </div>
-          <div className="grid grid-cols-[repeat(7,minmax(0,1fr))] gap-1 max-w-[60%]">
+          <div className="grid grid-cols-7 gap-1 max-w-md">
             {cells.map((cell, i) =>
               cell ? (
                 <div
