@@ -18,6 +18,11 @@ import {
   YAxis,
   CartesianGrid,
   Legend,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
 } from "recharts";
 
 const COLORS = {
@@ -97,7 +102,31 @@ const StudentProgression = () => {
     return `hsla(229, 56%, 37%, ${intensity})`;
   };
 
-  const monthName = today.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+  const monthName = today.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+
+  // Criterion breakdown — average per criterion for each task type
+  const avgCriteria = (type: TaskType) => {
+    const subs = studentSubs.filter((s) => getTask(s.task_id)?.task_type === type);
+    const fbs = subs
+      .map((s) => mockFeedback.find((f) => f.submission_id === s.id))
+      .filter((f): f is NonNullable<typeof f> => !!f);
+    if (fbs.length === 0) return null;
+    const avg = (key: keyof typeof fbs[0]) =>
+      fbs.reduce((sum, f) => sum + (f[key] as number), 0) / fbs.length;
+    return [
+      { criterion: "Task response", score: +avg("task_response_score").toFixed(2) },
+      { criterion: "Coherence", score: +avg("coherence_score").toFixed(2) },
+      { criterion: "Lexical", score: +avg("lexical_score").toFixed(2) },
+      { criterion: "Grammar", score: +avg("grammar_score").toFixed(2) },
+    ];
+  };
+  const radarT1 = avgCriteria("task1");
+  const radarT2 = avgCriteria("task2");
+  const radarData = ["Task response", "Coherence", "Lexical", "Grammar"].map((c, i) => ({
+    criterion: c,
+    "Task 1": radarT1?.[i].score ?? 0,
+    "Task 2": radarT2?.[i].score ?? 0,
+  }));
 
   return (
     <PageShell className="space-y-6">
@@ -108,7 +137,7 @@ const StudentProgression = () => {
       />
 
       <section className="grid gap-4 lg:grid-cols-3">
-        <div className="pisa-card lg:col-span-2">
+        <div className="pisa-card">
           <div className="flex items-baseline justify-between mb-3">
             <h2 className="font-display text-lg text-pisa-navy">Activity — {monthName}</h2>
             <span className="text-[12px] text-muted-foreground">
@@ -118,12 +147,12 @@ const StudentProgression = () => {
               }).length} submissions
             </span>
           </div>
-          <div className="grid grid-cols-7 gap-1 text-[10px] text-muted-foreground mb-1 max-w-md">
+          <div className="grid grid-cols-7 gap-1 text-[10px] text-muted-foreground mb-1">
             {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
               <div key={i} className="text-center">{d}</div>
             ))}
           </div>
-          <div className="grid grid-cols-7 gap-1 max-w-md">
+          <div className="grid grid-cols-7 gap-1">
             {cells.map((cell, i) =>
               cell ? (
                 <div
@@ -162,23 +191,62 @@ const StudentProgression = () => {
           ) : (
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
+                <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
                   <Pie
                     data={distribution}
                     dataKey="value"
                     nameKey="name"
-                    innerRadius={50}
-                    outerRadius={90}
+                    cx="50%"
+                    cy="45%"
+                    innerRadius="40%"
+                    outerRadius="70%"
                     paddingAngle={2}
-                    label={(e) => `${e.name}: ${e.value}`}
+                    label={false}
                   >
                     {distribution.map((d) => (
                       <Cell key={d.name} fill={d.color} />
                     ))}
                   </Pie>
                   <RTooltip />
-                  <Legend />
+                  <Legend verticalAlign="bottom" height={24} />
                 </PieChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+
+        <div className="pisa-card">
+          <h2 className="font-display text-lg text-pisa-navy mb-3">Criterion breakdown</h2>
+          {!radarT1 && !radarT2 ? (
+            <p className="text-sm text-muted-foreground">No reviewed essays yet.</p>
+          ) : (
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData} outerRadius="75%">
+                  <PolarGrid stroke="hsl(var(--border))" />
+                  <PolarAngleAxis dataKey="criterion" tick={{ fontSize: 11 }} />
+                  <PolarRadiusAxis domain={[0, 9]} tick={{ fontSize: 10 }} angle={90} />
+                  {radarT1 && (
+                    <Radar
+                      name="Task 1"
+                      dataKey="Task 1"
+                      stroke={COLORS.navy}
+                      fill={COLORS.navy}
+                      fillOpacity={0.3}
+                    />
+                  )}
+                  {radarT2 && (
+                    <Radar
+                      name="Task 2"
+                      dataKey="Task 2"
+                      stroke={COLORS.pink}
+                      fill={COLORS.pink}
+                      fillOpacity={0.3}
+                    />
+                  )}
+                  <Legend verticalAlign="bottom" height={24} />
+                  <RTooltip />
+                </RadarChart>
               </ResponsiveContainer>
             </div>
           )}
