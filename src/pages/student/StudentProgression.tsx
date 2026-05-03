@@ -107,8 +107,8 @@ const StudentProgression = () => {
         subtitle="See your activity, your essay mix, and how your band scores are trending."
       />
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <div className="pisa-card">
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="pisa-card lg:col-span-2">
           <div className="flex items-baseline justify-between mb-3">
             <h2 className="font-display text-lg text-pisa-navy">Activity — {monthName}</h2>
             <span className="text-[12px] text-muted-foreground">
@@ -118,17 +118,17 @@ const StudentProgression = () => {
               }).length} submissions
             </span>
           </div>
-          <div className="grid grid-cols-7 gap-1.5 text-[10px] text-muted-foreground mb-1">
+          <div className="grid grid-cols-7 gap-1 text-[10px] text-muted-foreground mb-1 max-w-md">
             {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
               <div key={i} className="text-center">{d}</div>
             ))}
           </div>
-          <div className="grid grid-cols-7 gap-1.5">
+          <div className="grid grid-cols-7 gap-1 max-w-md">
             {cells.map((cell, i) =>
               cell ? (
                 <div
                   key={i}
-                  className="aspect-square rounded-md flex items-center justify-center text-[10px] font-medium"
+                  className="aspect-square rounded flex items-center justify-center text-[9px] font-medium"
                   style={{
                     backgroundColor: heatColor(cell.count),
                     color: cell.count > 0 ? "white" : "hsl(var(--muted-foreground))",
