@@ -9,6 +9,7 @@ import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import Settings from "./pages/Settings.tsx";
 import StudentDashboard from "./pages/student/StudentDashboard.tsx";
+import StudentProgression from "./pages/student/StudentProgression.tsx";
 import WritingTask from "./pages/student/WritingTask.tsx";
 import StudentFeedback from "./pages/student/StudentFeedback.tsx";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard.tsx";
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/student" element={<StudentDashboard />} />
+            <Route path="/student/progression" element={<StudentProgression />} />
             <Route path="/student/write/:taskId" element={<WritingTask />} />
             <Route path="/student/feedback/:submissionId" element={<StudentFeedback />} />
             <Route path="/teacher" element={<TeacherDashboard />} />

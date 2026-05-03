@@ -10,6 +10,7 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const studentLinks = [
+      { to: "/student/progression", label: "Progression" },
     { to: "/student", label: "Dashboard" },
     { to: "/settings", label: "Settings" },
   ];
