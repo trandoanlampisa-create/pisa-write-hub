@@ -132,6 +132,66 @@ export const mockSubmissions: EssaySubmission[] = [
     submitted_at: "2026-04-28T08:10:00Z",
     updated_at: "2026-04-28T08:10:00Z",
   },
+  {
+    id: "sub-1a",
+    task_id: "task-1",
+    student_id: "p-s1",
+    essay_text: "(earlier task 1)",
+    word_count: 158,
+    status: "reviewed",
+    submitted_at: "2026-03-08T10:00:00Z",
+    updated_at: "2026-03-09T10:00:00Z",
+  },
+  {
+    id: "sub-1b",
+    task_id: "task-1",
+    student_id: "p-s1",
+    essay_text: "(line graph)",
+    word_count: 165,
+    status: "reviewed",
+    submitted_at: "2026-03-22T10:00:00Z",
+    updated_at: "2026-03-23T10:00:00Z",
+  },
+  {
+    id: "sub-1c",
+    task_id: "task-2",
+    student_id: "p-s1",
+    essay_text: "(earlier task 2)",
+    word_count: 252,
+    status: "reviewed",
+    submitted_at: "2026-03-15T10:00:00Z",
+    updated_at: "2026-03-16T10:00:00Z",
+  },
+  {
+    id: "sub-1d",
+    task_id: "task-1",
+    student_id: "p-s1",
+    essay_text: "(bar chart)",
+    word_count: 170,
+    status: "reviewed",
+    submitted_at: "2026-04-05T10:00:00Z",
+    updated_at: "2026-04-06T10:00:00Z",
+  },
+  {
+    id: "sub-1e",
+    task_id: "task-2",
+    student_id: "p-s1",
+    essay_text: "(agree disagree)",
+    word_count: 268,
+    status: "reviewed",
+    submitted_at: "2026-04-12T10:00:00Z",
+    updated_at: "2026-04-13T10:00:00Z",
+  },
+  {
+    id: "sub-1f",
+    task_id: "task-1",
+    student_id: "p-s1",
+    essay_text: "(map)",
+    word_count: 162,
+    status: "reviewed",
+    submitted_at: "2026-04-19T10:00:00Z",
+    updated_at: "2026-04-20T10:00:00Z",
+  },
 ];
 
 export const mockFeedback: TeacherFeedback[] = [
@@ -164,6 +224,27 @@ export const mockFeedback: TeacherFeedback[] = [
     created_at: "2026-04-27T10:12:00Z",
     updated_at: "2026-04-27T10:12:00Z",
   },
+  ...(["sub-1a","sub-1b","sub-1c","sub-1d","sub-1e","sub-1f"].map((sid, i) => {
+    const bands = [5.0, 5.5, 5.5, 6.0, 6.0, 6.5];
+    const b = bands[i];
+    return {
+      id: `fb-${sid}`,
+      submission_id: sid,
+      teacher_id: "p-t1",
+      task_response_score: Math.round(b),
+      coherence_score: Math.round(b),
+      lexical_score: Math.max(4, Math.round(b - 0.5)),
+      grammar_score: Math.max(4, Math.round(b - 1)),
+      overall_band: b,
+      overall_feedback: "Solid effort — keep practising.",
+      strengths: "",
+      weaknesses: "",
+      next_action: "",
+      is_sent_to_student: true,
+      created_at: "2026-04-01T10:00:00Z",
+      updated_at: "2026-04-01T10:00:00Z",
+    } as TeacherFeedback;
+  })),
 ];
 
 export const mockProgressNotes: ProgressNote[] = [
